@@ -1,0 +1,14 @@
+.git
+.gitignore
+.claude
+node_modules
+.next
+*.db
+*.db-journal
+.env
+.env.*
+README.md
+CLAUDE.md
+PR_REVIEW.md
+PROJECT_RULES.md
+PROJECT_UPDATES.md

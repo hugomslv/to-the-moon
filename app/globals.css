@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  --space-bg: #050a18;
+  --space-surface: #0d1b2a;
+  --space-border: #1e3a5f;
+  --space-accent: #4cc9f0;
+  --space-gold: #f8c843;
+  --space-green: #06d6a0;
+  --space-red: #ef233c;
+  --space-text: #e2e8f0;
+  --space-muted: #94a3b8;
+}
+
+@theme inline {
+  --color-background: var(--space-bg);
+  --color-foreground: var(--space-text);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--space-bg);
+  color: var(--space-text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
+}

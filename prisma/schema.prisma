@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Session {
+  id          String          @id @default(cuid())
+  teamName    String
+  startedAt   DateTime        @default(now())
+  finishedAt  DateTime?
+  totalTimeMs Int?
+  completed   Boolean         @default(false)
+  attempts    PuzzleAttempt[]
+  survey      Survey?
+
+  @@index([totalTimeMs])
+}
+
+model PuzzleAttempt {
+  id        String    @id @default(cuid())
+  sessionId String
+  session   Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  puzzleId  String
+  attempts  Int       @default(0)
+  solvedAt  DateTime?
+  hintsUsed Int       @default(0)
+
+  @@unique([sessionId, puzzleId])
+}
+
+model Survey {
+  id         String   @id @default(cuid())
+  sessionId  String   @unique
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  rating     Int
+  difficulty Int
+  comment    String?
+  createdAt  DateTime @default(now())
+}
