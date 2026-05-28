@@ -16,6 +16,51 @@ Format de chaque entrée : date, auteur, type, résumé, fichiers touchés.
 
 ---
 
+## 2026-05-28 – Hugo – feat (admin)
+
+Page d'administration sécurisée avec système de login.
+
+Fonctionnalités livrées :
+- Page de login `/admin/login` : formulaire glassmorphism, validation côté client, spinner de chargement, "Se souvenir de moi", badge DecryptedText CTF.
+- Auth sécurisée : HMAC-SHA256 via Web Crypto API (Edge Runtime compatible). Identifiants dans `.env` (mot de passe hashé SHA-256, jamais en clair). Cookie httpOnly `ttm_admin_token`.
+- Middleware Next.js : protège toutes les routes `/admin/*` sauf `/admin/login`. Redirection 307 si token absent ou expiré.
+- Layout admin : sidebar rétractable avec liens de navigation, header sticky avec avatar admin et bouton de déconnexion.
+- Dashboard complet (client component) :
+  - 4 KPI cards SpotlightCard + CountUp animé (parties, complétion, temps moyen, satisfaction)
+  - Graphique courbe d'activité (14 jours, mock data → brancher sur /api/admin/activity)
+  - Graphique barres tentatives par énigme (données réelles via /api/admin/stats)
+  - Graphique donut satisfaction (données réelles via /api/admin/stats)
+  - Mini-leaderboard top 5 (données réelles via /api/leaderboard)
+  - Tableau sessions avec recherche, tri 3 colonnes, pagination (données réelles via nouvelle API /api/admin/sessions)
+  - Zone de danger "Reset" avec confirmation
+- Déconnexion : API POST /api/admin/logout efface le cookie, redirige vers /login.
+
+Dépendances ajoutées :
+- `recharts` (graphiques SVG)
+
+Nouvelles API routes :
+- POST `/api/admin/login` – validation credentials + cookie
+- POST `/api/admin/logout` – effacement cookie
+- GET `/api/admin/verify` – vérification token
+- GET `/api/admin/sessions` – liste paginée/filtrée des sessions
+
+Identifiants par défaut :
+- Username : `admin`
+- Password : `moonadmin2026` (à changer en prod via ADMIN_PASSWORD_HASH dans .env)
+
+Fichiers touchés :
+- `middleware.ts` – protection routes admin
+- `lib/adminAuth.ts` – auth Web Crypto
+- `app/api/admin/login|logout|verify|sessions/` – nouvelles routes
+- `app/admin/login/page.tsx` – page login
+- `app/admin/layout.tsx` – layout avec sidebar
+- `app/admin/page.tsx` – dashboard complet
+- `hooks/useAdminAuth.ts` – hook auth
+- `components/admin/` – AdminSidebar, AdminHeader, StatCard, MiniLeaderboard, charts/
+- `.env` – ADMIN_USERNAME, ADMIN_PASSWORD_HASH, ADMIN_TOKEN_SECRET
+
+---
+
 ## 2026-05-28 – Hugo – feat
 
 Refonte complète de la landing page avec ReactBits et motion/ogl.

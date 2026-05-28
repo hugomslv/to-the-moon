@@ -194,6 +194,9 @@ const Particles: React.FC<ParticlesProps> = ({
       cancelAnimationFrame(animId);
       if (container.contains(gl.canvas)) container.removeChild(gl.canvas);
     };
+    // particleColors exclu intentionnellement : inclure causerait une boucle infinie
+    // (tableau recréé à chaque render). Les couleurs sont lues au montage uniquement.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     particleCount, particleSpread, speed, moveParticlesOnHover,
     particleHoverFactor, alphaParticles, particleBaseSize,
