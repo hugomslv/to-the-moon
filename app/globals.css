@@ -29,9 +29,22 @@ body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   min-height: 100svh;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.2; }
   50% { opacity: 0.9; }
+}
+
+/* Canvas WebGL (Particles) plein écran dans son conteneur */
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Supprime le style blur-text parasite sur les éléments wrappés */
+.blur-text {
+  gap: 0.25em;
 }

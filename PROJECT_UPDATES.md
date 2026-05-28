@@ -16,6 +16,45 @@ Format de chaque entrée : date, auteur, type, résumé, fichiers touchés.
 
 ---
 
+## 2026-05-28 – Hugo – feat
+
+Refonte complète de la landing page avec ReactBits et motion/ogl.
+
+Fonctionnalités livrées :
+- NavBar fixe avec glassmorphism au scroll, liens de navigation et CTA.
+- HeroSection : background Particles WebGL (ogl), titre BlurText animé, sous-titre ShinyText, badge DecryptedText, deux CTA, scroll indicator. Chargement différé (next/dynamic ssr: false) pour le WebGL.
+- StartSection : formulaire de démarrage de session avec SpotlightCard, design "mission briefing", gestion d'erreur et état de chargement.
+- LeaderboardSection : podium top 3 avec glassmorphism et bordures colorées (or/argent/bronze), liste positions 4-10 avec animation au scroll, mock data 10 joueurs.
+- HowItWorksSection : 3 SpotlightCards étapes, design cohérent avec la palette spatiale.
+- StatsSection : 4 blocs CountUp animés (parties, équipes, complétion, satisfaction).
+- Footer : navigation, liens, crédits équipe.
+
+Composants ReactBits intégrés (sources copiées dans le projet) :
+- `components/ui/Particles.tsx` – WebGL via ogl
+- `components/ui/BlurText.tsx` – animation motion/react
+- `components/ui/ShinyText.tsx` – animation motion/react
+- `components/ui/CountUp.tsx` – compteur motion/react
+- `components/ui/SpotlightCard.tsx` – spotlight interactif
+- `components/ui/DecryptedText.tsx` – révélation CTF (custom)
+
+Dépendances ajoutées :
+- `motion` v12.40.0 (framer-motion v11+, import `motion/react`)
+- `ogl` v1.0.11 (WebGL léger pour Particles)
+
+Choix techniques :
+- `app/page.tsx` reste un Server Component, chaque section est un Client Component indépendant.
+- Math.random() pour le numéro de mission géré via useEffect (pas de hydration mismatch).
+- Bundle landing page : 158 KB first load JS (sous la limite de 500 KB gzip).
+
+Fichiers touchés :
+- `app/page.tsx` – refonte totale
+- `app/globals.css` – ajout scroll-behavior, canvas reset, .blur-text gap
+- `components/ui/` – 6 nouveaux composants
+- `components/home/` – 7 nouvelles sections
+- `package.json`, `package-lock.json` – motion + ogl
+
+---
+
 ## 2026-05-21 – Hugo – feat
 
 Initialisation complète du projet Next.js 15 avec Prisma, SQLite et structure CTF.
